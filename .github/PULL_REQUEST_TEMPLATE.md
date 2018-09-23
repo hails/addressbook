@@ -45,7 +45,6 @@ Blocker is defined as anything that prevents this PR from being merged immediate
 
 :rotating_light: Please review this items for a good pull request. :four_leaf_clover:
 
-1. I've read the project's [Contributing Guidelines](../CONTRIBUTING.md)
 1. My commits are well written and follow [pagarme/git-style-guide](https://github.com/pagarme/git-style-guide)
 1. My changes are well covered by **tests** and **logs**
 1. I've updated the project docs (if needed)
@@ -53,4 +52,3 @@ Blocker is defined as anything that prevents this PR from being merged immediate
 1. I feel comfortable with the code I wrote, and I'm not ashamed to show it to my friends
 
 In a good pull request, everything above is true :relaxed:
-
