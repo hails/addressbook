@@ -2,10 +2,17 @@
   "name": "addressbook",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "test": "jest --verbose",
+    "start": "node src/index.js"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ]
   },
   "repository": {
     "type": "git",
@@ -18,7 +25,9 @@
   },
   "homepage": "https://github.com/hails/addressbook#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "jest": "^23.6.0"
   },
   "devDependencies": {
     "eslint": "^4.7.2",

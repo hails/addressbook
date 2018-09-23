@@ -4,6 +4,7 @@ WORKDIR /addressbook
 
 COPY package.json .
 COPY package-lock.json .
-COPY index.js .
+COPY src/ ./src
+COPY tests ./tests
 
 RUN npm install -q

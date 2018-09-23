@@ -1,10 +1,20 @@
-version: '3'
+version: '2.1'
 
 services:
-  server:
+  base-server:
     build: .
+    volumes:
+      - .:/addressbook
+      - /addressbook
+
+  server:
+    extends: base-server
     command: npm start
     environment:
       PORT: 3000
     ports:
       - 3000:3000
+
+  test:
+    extends: base-server
+    command: npm test
