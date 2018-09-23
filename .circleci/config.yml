@@ -13,6 +13,7 @@ jobs:
             - v1-dependencies-{{checksum "package.json"}}
             - v1-dependencies
       - run: npm install
+      - run: npm run lint
       - run: npm test
       - save_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
