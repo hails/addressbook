@@ -5,7 +5,7 @@ services:
     build: .
     volumes:
       - .:/addressbook
-      - /addressbook
+      - /addressbook/node_modules
 
   server:
     extends: base-server
@@ -21,4 +21,4 @@ services:
 
   lint:
     extends: base-server
-    command: npm lint
+    command: npm run lint
