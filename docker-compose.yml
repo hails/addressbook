@@ -18,3 +18,7 @@ services:
   test:
     extends: base-server
     command: npm test
+
+  lint:
+    extends: base-server
+    command: npm lint
