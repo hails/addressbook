@@ -1,0 +1,19 @@
+{
+  "name": "addressbook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hails/addressbook.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/hails/addressbook/issues"
+  },
+  "homepage": "https://github.com/hails/addressbook#readme"
+}
