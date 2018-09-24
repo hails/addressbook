@@ -33,6 +33,24 @@ services:
       timeout: 5s
       retries: 5
 
+  migration-up:
+    extends: base-server
+    entrypoint: node_modules/.bin/sequelize db:migrate --config src/config/database.js --migrations-path src/database/migrations/
+    environment:
+      - NODE_ENV=test
+    depends_on:
+      test-database:
+        condition: service_healthy
+
+  migration-undo:
+    extends: base-server
+    entrypoint: node_modules/.bin/sequelize db:migrate:undo:all --config src/config/database.js --migrations-path src/database/migrations/
+    environment:
+      - NODE_ENV=test
+    depends_on:
+      test-database:
+        condition: service_healthy
+
   server:
     extends: base-server
     command: npm start
