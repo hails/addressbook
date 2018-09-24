@@ -7,6 +7,19 @@ services:
       - .:/addressbook
       - /addressbook/node_modules
 
+  database:
+    image: postgres:10.5-alpine
+    restart: always
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_PASSWORD=MY_S3KR37_DB$$
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   server:
     extends: base-server
     command: npm start
