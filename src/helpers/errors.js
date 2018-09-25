@@ -30,8 +30,19 @@ class InternalServerError extends Error {
   }
 }
 
+class ConflictError extends Error {
+  constructor (message, statusCode = 409) {
+    super(message)
+
+    this.name = 'ConflictError'
+    this.type = 'conflict'
+    this.statusCode = statusCode
+  }
+}
+
 module.exports = {
   RouteNotFoundError,
   ValidationError,
   InternalServerError,
+  ConflictError,
 }
