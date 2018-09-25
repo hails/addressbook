@@ -61,6 +61,7 @@ services:
     command: npm test
     environment:
       - NODE_ENV=test
+      - JWT_SECRET=averyverylongansecurestring
     depends_on:
         test-database:
           condition: service_healthy
