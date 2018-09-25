@@ -5,6 +5,7 @@ jobs:
       - image: circleci/node:8.12
         environment:
           NODE_ENV: "test"
+          JWT_SECRET: "strongsecret"
       - image: postgres:10.5-alpine
         name: test-database
 
