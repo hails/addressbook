@@ -40,6 +40,22 @@ services:
       database:
         condition: service_healthy
 
+  debug-server:
+    extends: base-server
+    command: node --inspect=0.0.0.0 src/index.js
+    environment:
+      - PORT=3333
+      - DATABASE_URL=database
+      - DATABASE_NAME=postgres
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=MY_S3KR37_DB$$
+    ports:
+      - 3333:3333
+      - 9229:9299
+    depends_on:
+      database:
+        condition: service_healthy
+
   test:
     extends: base-server
     command: npm test
