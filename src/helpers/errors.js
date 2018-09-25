@@ -8,6 +8,18 @@ class RouteNotFoundError extends Error {
   }
 }
 
+class ValidationError extends Error {
+  constructor (message, fields, statusCode = 400) {
+    super(message)
+
+    this.name = 'ValidationError'
+    this.type = 'validation'
+    this.fields = fields
+    this.statusCode = statusCode
+  }
+}
+
 module.exports = {
   RouteNotFoundError,
+  ValidationError,
 }
