@@ -19,7 +19,30 @@ class ValidationError extends Error {
   }
 }
 
+class InternalServerError extends Error {
+  constructor (message, fields, statusCode = 500) {
+    super(message)
+
+    this.name = 'InternalServerError'
+    this.type = 'internal'
+    this.fields = fields
+    this.statusCode = statusCode
+  }
+}
+
+class ConflictError extends Error {
+  constructor (message, statusCode = 409) {
+    super(message)
+
+    this.name = 'ConflictError'
+    this.type = 'conflict'
+    this.statusCode = statusCode
+  }
+}
+
 module.exports = {
   RouteNotFoundError,
   ValidationError,
+  InternalServerError,
+  ConflictError,
 }

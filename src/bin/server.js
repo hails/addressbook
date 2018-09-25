@@ -5,6 +5,7 @@ const database = require('../database')
 const errorHandler = require('../controllers/middlewares/error')
 const responseHandler = require('../controllers/middlewares/response')
 const routeNotFoundHandler = require('../controllers/middlewares/notfound')
+const userRouter = require('../controllers/user')
 
 const app = express()
 
@@ -30,6 +31,11 @@ const bootstrap = async () => {
 app.use(bodyParser.json())
 
 app.disable('x-powered-by')
+
+app.use(
+  '/users',
+  userRouter
+)
 
 app.use(routeNotFoundHandler)
 app.use(errorHandler)
