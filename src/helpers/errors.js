@@ -30,6 +30,16 @@ class InternalServerError extends Error {
   }
 }
 
+class AuthenticationError extends Error {
+  constructor (message, statusCode = 403) {
+    super(message)
+
+    this.name = 'AuthenticationError'
+    this.type = 'authentication'
+    this.statusCode = statusCode
+  }
+}
+
 class ConflictError extends Error {
   constructor (message, statusCode = 409) {
     super(message)
@@ -44,5 +54,6 @@ module.exports = {
   RouteNotFoundError,
   ValidationError,
   InternalServerError,
+  AuthenticationError,
   ConflictError,
 }
