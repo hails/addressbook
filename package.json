@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "jest --verbose",
-    "start": "node src/index.js",
+    "start": "node src/bin/server.js",
     "lint": "eslint --config .eslintrc 'src/**' 'tests/**'"
   },
   "jest": {

@@ -42,7 +42,7 @@ services:
 
   debug-server:
     extends: base-server
-    command: node --inspect=0.0.0.0 src/index.js
+    command: node --inspect=0.0.0.0 src/bin/server.js
     environment:
       - PORT=3333
       - DATABASE_URL=database
