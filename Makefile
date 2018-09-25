@@ -36,6 +36,11 @@ migrate-database-undo:
 server:
 	@docker-compose up server
 
+debug-server:
+	@docker-compose up debug-server
+
 run: database migrate-database server
 
-.PHONY: build build-no-cache stop down test-database test-migrate-database test-migrate-database-undo test-run test database migrate-database migrate-database-undo server run
+debug: database migrate-database debug-server
+
+.PHONY: build build-no-cache stop down test-database test-migrate-database test-migrate-database-undo test-run test database migrate-database migrate-database-undo server debug-server run debug
