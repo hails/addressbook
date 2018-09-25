@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "jest --verbose",
-    "start": "node src/index.js",
+    "start": "node src/bin/server.js",
     "lint": "eslint --config .eslintrc 'src/**' 'tests/**'"
   },
   "jest": {
@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/hails/addressbook#readme",
   "dependencies": {
+    "bluebird": "^3.5.2",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "jest": "^23.6.0",
