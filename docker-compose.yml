@@ -43,6 +43,11 @@ services:
   test:
     extends: base-server
     command: npm test
+    environment:
+      - NODE_ENV=test
+    depends_on:
+        test-database:
+          condition: service_healthy
 
   lint:
     extends: base-server
