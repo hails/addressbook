@@ -23,7 +23,7 @@ describe('ResponseHandler', () => {
     const result = responseHandler(req, errorRes)
 
     test('should respond with correct payload', () => {
-      expect(result).toMatchObject({
+      expect(result).toEqual({
         statusCode: 400,
         errors: 'nice_error',
       })
@@ -31,27 +31,54 @@ describe('ResponseHandler', () => {
   })
 
   describe('on success', () => {
-    const successRes = {
-      locals: {
-        payload: {
-          type: 'success',
-          data: 'success',
+    describe('without a \'statusCode\' and with \'data\'', () => {
+      const successRes = {
+        locals: {
+          payload: {
+            type: 'success',
+            data: 'success',
+          },
         },
-      },
-      status: statusCode => ({
-        send: obj => ({
-          ...obj,
-          statusCode,
+        status: statusCode => ({
+          send: obj => ({
+            ...obj,
+            statusCode,
+          }),
         }),
-      }),
-    }
+      }
 
-    const result = responseHandler(req, successRes)
+      const result = responseHandler(req, successRes)
 
-    test('should respond with correct payload', () => {
-      expect(result).toMatchObject({
-        statusCode: 200,
-        data: 'success',
+      test('should respond with correct payload', () => {
+        expect(result).toEqual({
+          statusCode: 200,
+          data: 'success',
+        })
+      })
+    })
+
+    describe('with a \'statusCode\' and without \'data\'', () => {
+      const successRes = {
+        locals: {
+          payload: {
+            type: 'success',
+            statusCode: 201,
+          },
+        },
+        status: statusCode => ({
+          send: obj => ({
+            ...obj,
+            statusCode,
+          }),
+        }),
+      }
+
+      const result = responseHandler(req, successRes)
+
+      test('should respond with correct payload', () => {
+        expect(result).toEqual({
+          statusCode: 201,
+        })
       })
     })
   })

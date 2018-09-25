@@ -7,9 +7,15 @@ const responseHandler = (req, res) => {
     })
   }
 
-  return res.status(200).send({
-    data: payload.data,
-  })
+  const statusCode = payload.statusCode ?
+    payload.statusCode :
+    200
+
+  const response = payload.data ?
+    { data: payload.data } :
+    {}
+
+  return res.status(statusCode).send(response)
 }
 
 module.exports = responseHandler
