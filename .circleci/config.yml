@@ -18,6 +18,7 @@ jobs:
             - v1-dependencies
       - run: npm install
       - run: npm run lint
+      - run: node_modules/.bin/sequelize db:migrate --config src/config/database.js --migrations-path src/database/migrations/
       - run: npm test
       - save_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
