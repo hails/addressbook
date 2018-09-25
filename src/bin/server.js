@@ -6,6 +6,7 @@ const errorHandler = require('../controllers/middlewares/error')
 const responseHandler = require('../controllers/middlewares/response')
 const routeNotFoundHandler = require('../controllers/middlewares/notfound')
 const userRouter = require('../controllers/user')
+const contactRouter = require('../controllers/contact')
 
 const app = express()
 
@@ -35,6 +36,11 @@ app.disable('x-powered-by')
 app.use(
   '/users',
   userRouter
+)
+
+app.use(
+  '/contacts',
+  contactRouter
 )
 
 app.use(routeNotFoundHandler)
