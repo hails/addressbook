@@ -4,6 +4,7 @@ const Promise = require('bluebird')
 const Sequelize = require('sequelize')
 
 const getConfig = require('../config/database')
+const { logger } = require('../helpers/escriba')
 
 const fsPromise = Promise.promisifyAll(fs)
 const db = {
@@ -58,22 +59,22 @@ const readModelFiles = () =>
       }
     })
     .catch((err) => {
-      console.error('Error reading model files')
+      logger.error('Error reading model files')
       throw err
     })
 
 const bootstrap = () => {
-  console.info('Starting database bootstrap')
+  logger.info('Starting database bootstrap')
   return readModelFiles()
     .then(() => {
-      console.info('Attempting database authentication')
+      logger.info('Attempting database authentication')
       return db.sequelize.authenticate()
     })
     .then(() => {
-      console.info('Authentication successful')
+      logger.info('Authentication successful')
     })
     .catch((err) => {
-      console.error('Error bootstraping application')
+      logger.error('Error bootstraping application')
       throw err
     })
 }

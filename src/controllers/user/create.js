@@ -3,16 +3,17 @@ const {
   InternalServerError,
   ConflictError,
 } = require('../../helpers/errors')
+const { logger } = require('../../helpers/escriba')
 
 const {
   UniqueConstraintError,
 } = database.Sequelize
 
-const handleError = (error) => {
+const handleError = (error, req) => {
   if (error instanceof UniqueConstraintError) {
     return new ConflictError('Email already registered')
   }
-  console.dir(error)
+  logger.error(error, { id: req.id })
   return new InternalServerError()
 }
 
@@ -33,7 +34,7 @@ const create = async (req, res, next) => {
       statusCode: 201,
     }
   } catch (error) {
-    return next(handleError(error))
+    return next(handleError(error, req))
   }
 
   return next()
