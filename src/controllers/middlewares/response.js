@@ -13,7 +13,7 @@ const responseHandler = (req, res) => {
 
   const response = payload.data ?
     { data: payload.data } :
-    {}
+    null
 
   return res.status(statusCode).send(response)
 }
