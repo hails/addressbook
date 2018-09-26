@@ -28,12 +28,7 @@ services:
   server:
     extends: base-server
     command: npm start
-    environment:
-      - PORT=3000
-      - DATABASE_URL=database
-      - DATABASE_NAME=postgres
-      - DATABASE_USERNAME=postgres
-      - DATABASE_PASSWORD=MY_S3KR37_DB$$
+    env_file: .env
     ports:
       - 3000:3000
     depends_on:
@@ -43,12 +38,7 @@ services:
   debug-server:
     extends: base-server
     command: node --inspect=0.0.0.0 src/bin/server.js
-    environment:
-      - PORT=3333
-      - DATABASE_URL=database
-      - DATABASE_NAME=postgres
-      - DATABASE_USERNAME=postgres
-      - DATABASE_PASSWORD=MY_S3KR37_DB$$
+    env_file: .env
     ports:
       - 3333:3333
       - 9229:9299
@@ -61,7 +51,7 @@ services:
     command: npm test
     environment:
       - NODE_ENV=test
-      - JWT_SECRET=averyverylongansecurestring
+      - JWT_SECRET=isthisastrongsecret
     depends_on:
         test-database:
           condition: service_healthy
