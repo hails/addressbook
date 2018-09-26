@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  tests:
     docker:
       - image: circleci/node:8.12
         environment:
@@ -17,11 +17,53 @@ jobs:
           keys:
             - v1-dependencies-{{checksum "package.json"}}
             - v1-dependencies
-      - run: npm install
-      - run: npm run lint
-      - run: node_modules/.bin/sequelize db:migrate --config src/config/database.js --migrations-path src/database/migrations/
-      - run: npm test
+      - run:
+          name: "Install dependencies"
+          command: npm install
+      - run:
+          name: "Run linter"
+          command: npm run lint
+      - run:
+          name: "Run database migrations"
+          command: node_modules/.bin/sequelize db:migrate --config src/config/database.js --migrations-path src/database/migrations/
+      - run:
+          name: "Run tests"
+          command: npm test
       - save_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
           paths:
             - node_modules
+  deploy:
+    working_directory: ~/addressbook
+    machine:
+      enabled: true
+    steps:
+      - checkout
+      - run:
+          name: "Run migrations"
+          command: |
+            npm install sequelize-cli --no-save
+            ./node_modules/.bin/sequelize db:migrate --config src/config/database.js --migrations-path src/database/migrations/
+
+      - run:
+          name: "Deploy to now.sh"
+          command: |
+            npm install now --no-save
+            ./node_modules/.bin/now --npm --public --build-env NODE_ENV=production -e DATABASE_URL -e DATABASE_NAME -e DATABASE_USERNAME -e DATABASE_PASSWORD -e JWT_SECRET -e FIREBASE_API_KEY -e FIREBASE_AUTH_DOMAIN -e FIREBASE_DATABASE_URL -e FIREBASE_PROJECT_ID -e FIREBASE_STORAGE_BUCKET -e FIREBASE_MESSAGING_SENDER_ID -e PORT=3000 --token $NOW_TOKEN
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+    - tests:
+        filters:
+          tags:
+            only: /^v.*/
+    - deploy:
+        requires:
+          - tests
+        filters:
+          branches:
+            ignore: /.*/
+          tags:
+            only: /^v([0-9]+).([0-9]+).([0-9]+).*$/
