@@ -7,6 +7,7 @@ const {
   InternalServerError,
   AuthenticationError,
 } = require('../../helpers/errors')
+const { logger } = require('../../helpers/escriba')
 
 const signPayload = promisify(jwt.sign)
 
@@ -40,7 +41,7 @@ const login = async (req, res, next) => {
       }
     }
   } catch (error) {
-    console.dir(error)
+    logger.error(error, { id: req.id })
     return next(new InternalServerError())
   }
 

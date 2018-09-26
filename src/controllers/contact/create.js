@@ -4,6 +4,7 @@ const firebaseConfig = require('../../config/firebase')
 const {
   InternalServerError,
 } = require('../../helpers/errors')
+const { logger } = require('../../helpers/escriba')
 
 firebase.initializeApp(firebaseConfig)
 
@@ -23,7 +24,7 @@ const create = async (req, res, next) => {
       statusCode: 204,
     }
   } catch (error) {
-    console.dir(error)
+    logger.error(error, { id: req.id })
     return next(new InternalServerError())
   }
 
