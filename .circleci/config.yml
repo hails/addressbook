@@ -25,3 +25,29 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
           paths:
             - node_modules
+  deploy:
+    working_directory: ~/addressbook
+    machine:
+      enabled: true
+    steps:
+      - checkout
+      - run:
+          name: "Deploy to now.sh"
+          command: |
+            npm install now --no-save
+            ./node_modules/.bin/now --docker --public --build-env NODE_ENV=production -e DATABASE_URL -e DATABASE_NAME -e DATABASE_USERNAME -e DATABASE_PASSWORD -e JWT_SECRET -e FIREBASE_API_KEY -e FIREBASE_AUTH_DOMAIN -e FIREBASE_DATABASE_URL -e FIREBASE_PROJECT_ID -e FIREBASE_STORAGE_BUCKET -e FIREBASE_MESSAGING_SENDER_ID --token $NOW_TOKEN
+
+workflows:
+  version: 2
+  build-and-deploy:
+    build:
+    - tests:
+        filters:
+          tags:
+            only: /^v.*/
+    - deploy:
+        requires:
+          - build
+        filters:
+          tags:
+            only: /^v([0-9]+).([0-9]+).([0-9]+).*$/
