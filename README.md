@@ -1,7 +1,7 @@
 # Addressbook
 [![CircleCI](https://circleci.com/gh/hails/addressbook.svg?style=svg&circle-token=0c0b91456b9ad919ffaf0fffcef865e4d12e699e)](https://circleci.com/gh/hails/addressbook)
 
-:pager: A addressbook service to store your contacts
+:pager: An addressbook service to store your contacts
 
 ## Table of Contents
 - [Technology](#technology)
