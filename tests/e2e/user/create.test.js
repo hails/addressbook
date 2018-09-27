@@ -21,7 +21,9 @@ describe('User creation', () => {
         .set('Accept', 'application/json')
         .then((response) => {
           expect(response).toHaveProperty('status', 201)
-          expect(response.body).toEqual({})
+          expect(response.body).toHaveProperty('data')
+          expect(response.body.data).toHaveProperty('id')
+          expect(response.body.data).toHaveProperty('email', userData.email)
         }))
   })
 
