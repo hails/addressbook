@@ -50,10 +50,21 @@ class ConflictError extends Error {
   }
 }
 
+class RateLimitError extends Error {
+  constructor (message, statusCode = 429) {
+    super(message)
+
+    this.name = 'RateLimitError'
+    this.type = 'rate_limit'
+    this.statusCode = statusCode
+  }
+}
+
 module.exports = {
   RouteNotFoundError,
   ValidationError,
   InternalServerError,
   AuthenticationError,
   ConflictError,
+  RateLimitError,
 }
