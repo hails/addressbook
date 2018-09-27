@@ -1,3 +1,8 @@
+const {
+  applySpec,
+  prop,
+} = require('ramda')
+
 const database = require('../../database')
 const {
   InternalServerError,
@@ -17,6 +22,11 @@ const handleError = (error, req) => {
   return new InternalServerError()
 }
 
+const createdUserSpec = applySpec({
+  id: prop('id'),
+  email: prop('email'),
+})
+
 const create = async (req, res, next) => {
   const {
     email,
@@ -24,7 +34,7 @@ const create = async (req, res, next) => {
   } = req.body
 
   try {
-    await database.User.create({
+    const user = await database.User.create({
       email,
       password,
     })
@@ -32,6 +42,9 @@ const create = async (req, res, next) => {
     res.locals.payload = {
       type: 'response',
       statusCode: 201,
+      data: {
+        ...createdUserSpec(user),
+      },
     }
   } catch (error) {
     return next(handleError(error, req))
