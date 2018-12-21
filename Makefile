@@ -14,24 +14,24 @@ test-database:
 	@docker-compose up -d test-database
 
 test-migrate-database:
-	@docker-compose run --entrypoint="node_modules/.bin/sequelize db:migrate --config src/config/database.js --migrations-path src/database/migrations/" test
+	@docker-compose run --rm --entrypoint="./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run --config src/config/database.ts" test
 
 test-migrate-database-undo:
-	@docker-compose run --entrypoint="node_modules/.bin/sequelize db:migrate:undo --config src/config/database.js --migrations-path src/database/migrations/" test
+	@docker-compose run --rm --entrypoint="./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:revert --config src/config/database.ts" test
 
 test-run:
 	@docker-compose up test
 
-test: test-database test-migrate-database test-run
+test: test-migrate-database test-database test-run
 
 database:
 	@docker-compose up -d database
 
 migrate-database:
-	@docker-compose run --entrypoint="node_modules/.bin/sequelize db:migrate --config src/config/database.js --migrations-path src/database/migrations/" server
+	@docker-compose run --rm --entrypoint="./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run --config src/config/database.ts" server
 
 migrate-database-undo:
-	@docker-compose run --entrypoint="node_modules/.bin/sequelize db:migrate:undo --config src/config/database.js --migrations-path src/database/migrations/" server
+	@docker-compose run --rm --entrypoint="./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:revert --config src/config/database.ts" server
 
 server:
 	@docker-compose up server

@@ -10,7 +10,7 @@ services:
   database:
     image: postgres:10.5-alpine
     restart: always
-    expose:
+    ports:
       - 5432
     environment:
       - POSTGRES_PASSWORD=MY_S3KR37_DB$$
@@ -27,7 +27,7 @@ services:
 
   server:
     extends: base-server
-    command: npm start
+    command: npm run dev
     env_file: .env
     ports:
       - 3000:3000
@@ -37,11 +37,11 @@ services:
 
   debug-server:
     extends: base-server
-    command: node --inspect=0.0.0.0 src/bin/server.js
+    command: npm run debug
     env_file: .env
     ports:
-      - 3333:3333
-      - 9229:9299
+      - 3333:3000
+      - 9229:9229
     depends_on:
       database:
         condition: service_healthy
