@@ -32,6 +32,16 @@ jobs:
       - run:
           name: "Build TypeScript"
           command: npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build
+            - src/database/migrations
+            - src/config/database.ts
+            - src/config/index.ts
+            - tsconfig.json
+            - package.json
+            - package-lock.json
       - save_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
           paths:
@@ -41,11 +51,12 @@ jobs:
     machine:
       enabled: true
     steps:
-      - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: "Run migrations"
           command: |
-            npm install ts-node typeorm --no-save
+            npm install ts-node typeorm typescript ramda pg --no-save
             ./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run --config src/config/database.ts
       - run:
           name: "Deploy to now.sh"
