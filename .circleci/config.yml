@@ -40,6 +40,8 @@ jobs:
             - src/config/database.ts
             - src/config/index.ts
             - tsconfig.json
+            - package.json
+            - package-lock.json
       - save_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
           paths:
