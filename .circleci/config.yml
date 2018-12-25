@@ -32,10 +32,6 @@ jobs:
       - run:
           name: "Build TypeScript"
           command: npm run build
-      - persist_to_workspace:
-          root: .
-          paths:
-            - "build/main.js"
       - save_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
           paths:
@@ -51,8 +47,6 @@ jobs:
           command: |
             npm install ts-node typeorm --no-save
             ./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run --config src/config/database.ts
-      - attach_workspace:
-          at: .
       - run:
           name: "Deploy to now.sh"
           command: |
