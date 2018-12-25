@@ -16,6 +16,7 @@ const handleError = (error, req) => {
     return new ConflictError('Email already registered')
   }
 
+  console.dir(error)
   logger.error(error, { id: req.id })
 
   return new InternalServerError()
