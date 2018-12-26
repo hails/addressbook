@@ -16,7 +16,7 @@ Stuff we use:
 - **[Docker](https://docs.docker.com)** and **[Docker Compose](https://docs.docker.com/compose/)** to create our development and test environments.
 - **[CircleCI](https://circleci.com)** for deployment and as general CI.
 - **[Now.sh](http://now.sh)** as our deployment provider.
-- **[Postgres](https://www.postgresql.org)** to store our data and **[Sequelize](http://docs.sequelizejs.com)** as a Node.js ORM.
+- **[Postgres](https://www.postgresql.org)** to store our data and **[TypeORM](http://typeorm.io)** as a Node.js ORM.
 - **[Jest](https://github.com/facebook/jest)** as a framework for tests.
 
 ## Getting Started
