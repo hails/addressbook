@@ -35,7 +35,13 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - "build/main.js"
+            - build
+            - src/database/migrations
+            - src/config/database.ts
+            - src/config/index.ts
+            - tsconfig.json
+            - package.json
+            - package-lock.json
       - save_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
           paths:
@@ -45,19 +51,18 @@ jobs:
     machine:
       enabled: true
     steps:
-      - checkout
-      - run:
-          name: "Run migrations"
-          command: |
-            npm install ts-node typeorm --no-save
-            ./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run --config src/config/database.ts
       - attach_workspace:
           at: .
       - run:
+          name: "Run migrations"
+          command: |
+            npm install ts-node typeorm typescript ramda pg --no-save
+            ./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run --config src/config/database.ts
+      - run:
           name: "Deploy to now.sh"
           command: |
-            npm install now --no-save
-            ./node_modules/.bin/now --public --build-env NODE_ENV=production -e DATABASE_URL -e DATABASE_NAME -e DATABASE_USERNAME -e DATABASE_PASSWORD -e JWT_SECRET -e FIREBASE_API_KEY -e FIREBASE_AUTH_DOMAIN -e FIREBASE_DATABASE_URL -e FIREBASE_PROJECT_ID -e FIREBASE_STORAGE_BUCKET -e FIREBASE_MESSAGING_SENDER_ID -e PORT=3000 --token $NOW_TOKEN
+            npm install now@12.1.8 --no-save
+            ./node_modules/.bin/now --npm --public --build-env NODE_ENV=production -e DATABASE_URL -e DATABASE_NAME -e DATABASE_USERNAME -e DATABASE_PASSWORD -e JWT_SECRET -e FIREBASE_API_KEY -e FIREBASE_AUTH_DOMAIN -e FIREBASE_DATABASE_URL -e FIREBASE_PROJECT_ID -e FIREBASE_STORAGE_BUCKET -e FIREBASE_MESSAGING_SENDER_ID -e PORT=3000 --token $NOW_TOKEN
 
 workflows:
   version: 2
