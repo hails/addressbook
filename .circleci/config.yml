@@ -32,16 +32,6 @@ jobs:
       - run:
           name: "Build TypeScript"
           command: npm run build
-      - persist_to_workspace:
-          root: .
-          paths:
-            - build
-            - src/database/migrations
-            - src/config/database.ts
-            - src/config/index.ts
-            - tsconfig.json
-            - package.json
-            - package-lock.json
       - save_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
           paths:
@@ -51,18 +41,15 @@ jobs:
     machine:
       enabled: true
     steps:
-      - attach_workspace:
-          at: .
+      - checkout
       - run:
           name: "Run migrations"
           command: |
-            npm install ts-node typeorm typescript ramda pg --no-save
-            ./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run --config src/config/database.ts
+            npx heroku run -a $HEROKU_APP_NAME './node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run --config src/config/database.ts'
       - run:
-          name: "Deploy to now.sh"
+          name: Deploy Tag to Heroku
           command: |
-            npm install now@12.1.8 --no-save
-            ./node_modules/.bin/now --npm --public --build-env NODE_ENV=production -e DATABASE_URL -e DATABASE_NAME -e DATABASE_USERNAME -e DATABASE_PASSWORD -e JWT_SECRET -e FIREBASE_API_KEY -e FIREBASE_AUTH_DOMAIN -e FIREBASE_DATABASE_URL -e FIREBASE_PROJECT_ID -e FIREBASE_STORAGE_BUCKET -e FIREBASE_MESSAGING_SENDER_ID -e PORT=3000 --token $NOW_TOKEN
+            git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git $(git describe --tags):master
 
 workflows:
   version: 2

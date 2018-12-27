@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "build/main.js",
+  "engines": {
+    "node": "8.12.0"
+  },
   "scripts": {
     "start": "node .",
     "dev": "backpack dev",
@@ -10,7 +13,7 @@
     "build": "backpack build",
     "lint": "tslint -c tslint.json 'src/**/*.ts' 'tests/**/*.ts'",
     "test": "jest --verbose",
-    "now-build": "true"
+    "heroku-postbuild": "backpack build"
   },
   "repository": {
     "type": "git",
