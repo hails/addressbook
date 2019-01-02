@@ -3,5 +3,6 @@ export default interface IHttpError {
   name: string,
   type: string,
   statusCode: number,
-  fields?: Object[],
+  fields?: object[],
+  code?: string
 }

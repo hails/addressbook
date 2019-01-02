@@ -1,7 +1,7 @@
 import IHttpError from './http-error'
 
 export default class ValidationError extends Error implements IHttpError {
-  message: string
+  message!: string
   name: string
   type: string
   fields: Object[]

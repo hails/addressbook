@@ -1,5 +1,6 @@
 import firebase from 'firebase'
-import { Request, Response, NextFunction } from 'express'
+import { Response, NextFunction, Request } from 'express'
+import IEscribaRequest from '../request-interface'
 
 import firebaseConfig from '../../config/firebase'
 
@@ -12,10 +13,23 @@ firebase.initializeApp(firebaseConfig)
 
 const firebaseDatabase = firebase.database()
 
-const addContact = (user, contact) =>
+interface IUser {
+  id: string,
+  email: string,
+  password: string,
+}
+
+interface IContact {
+  name?: string,
+  email?: string,
+  phone_number?: string,
+  country?: string,
+}
+
+const addContact = (user: IUser, contact: IContact) =>
   firebaseDatabase.ref(`users-contacts/${user.id}`).push(contact)
 
-const create = async (req: any, res: Response, next: NextFunction) => {
+const create = async (req: IEscribaRequest & Request, res: Response, next: NextFunction) => {
   const contact = req.body
 
   try {

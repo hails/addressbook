@@ -1,4 +1,6 @@
-const responseHandler = (req, res) => {
+import { Request, Response } from 'express'
+
+const responseHandler = (req: Request, res: Response) => {
   const { payload } = res.locals
 
   if (payload.type === 'error') {
@@ -13,7 +15,7 @@ const responseHandler = (req, res) => {
 
   const response = payload.data ?
     { data: payload.data } :
-    null
+    undefined
 
   return res.status(statusCode).send(response)
 }

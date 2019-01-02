@@ -9,6 +9,17 @@ const port = process.env.DATABASE_PORT
 const type = 'postgres'
 const migrations = ['src/database/migrations/*.ts']
 
+interface IDatabaseConfig {
+  url?: string
+  host?: string
+  database?: string
+  username?: string
+  password?: string
+  port?: number
+  type: 'postgres'
+  migrations?: string[]
+}
+
 const config = {
   development: {
     url,
@@ -41,4 +52,4 @@ const config = {
   },
 }
 
-export = getConfig(config)
+export = <IDatabaseConfig>getConfig(config)

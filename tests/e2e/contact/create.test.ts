@@ -1,4 +1,4 @@
-import request from 'supertest'
+import request, { Response } from 'supertest'
 
 import app from '../../../src/server'
 
@@ -14,7 +14,7 @@ describe('Contact creation', () => {
         .post('/contacts')
         .send(contactData)
         .set('Accept', 'application/json')
-        .then((response) => {
+        .then((response: Response) => {
           expect(response).toHaveProperty('status', 204)
           expect(response.body).toEqual({})
         }))

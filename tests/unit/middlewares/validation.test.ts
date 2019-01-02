@@ -1,6 +1,7 @@
 import Joi from 'joi'
 
 import validationFactory from '../../../src/controllers/middlewares/validation'
+import { Request, Response } from 'express'
 
 describe('Validation middleware', () => {
   describe('with generic joi schema and valid body', () => {
@@ -11,17 +12,19 @@ describe('Validation middleware', () => {
       }),
     }
 
-    const req = {
+    const req: Partial<Request> = {
       body: {
         email: 'just.a@email.com',
         password: 'just-a-password',
       },
     }
 
-    const next = payload => payload
+    const res: Partial<Response> = {}
+
+    const next = <T>(payload: T) => payload
 
     describe('validationFactory', () => {
-      const result = validationFactory(genericSchema)(req, null, next)
+      const result = validationFactory(genericSchema)(<Request>req, <Response>res, next)
 
       test('should just call \'next\' callback', () =>
         expect(result).toBeUndefined())
@@ -36,17 +39,19 @@ describe('Validation middleware', () => {
       }),
     }
 
-    const req = {
+    const req: Partial<Request> = {
       body: {
         email: 123,
         password: {},
       },
     }
 
-    const next = payload => payload
+    const res: Partial<Response> = {}
+
+    const next = <T>(payload: T) => payload
 
     describe('validationFactory', () => {
-      const error = validationFactory(genericSchema)(req, null, next)
+      const error = validationFactory(genericSchema)(<Request>req, <Response>res, next)
 
       test('should just call \'next\' with a \'ValidationError\'', () =>
         expect(error).toMatchObject({

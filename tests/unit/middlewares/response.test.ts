@@ -1,10 +1,11 @@
+import { Request, Response } from 'express'
 import responseHandler from '../../../src/controllers/middlewares/response'
 
 describe('ResponseHandler', () => {
-  const req = {}
+  const req: Partial<Request> = {}
 
   describe('on error', () => {
-    const errorRes = {
+    const errorRes: Partial<Response> = {
       locals: {
         payload: {
           type: 'error',
@@ -12,15 +13,15 @@ describe('ResponseHandler', () => {
           data: 'nice_error',
         },
       },
-      status: statusCode => ({
-        send: obj => ({
+      status: (statusCode: number) => <Response>({
+        send: (obj: object): Partial<Response> => ({
           ...obj,
           statusCode,
         }),
       }),
     }
 
-    const result = responseHandler(req, errorRes)
+    const result = responseHandler(<Request>req, <Response>errorRes)
 
     test('should respond with correct payload', () => {
       expect(result).toEqual({
@@ -32,22 +33,22 @@ describe('ResponseHandler', () => {
 
   describe('on success', () => {
     describe('without a \'statusCode\' and with \'data\'', () => {
-      const successRes = {
+      const successRes: Partial<Response> = {
         locals: {
           payload: {
             type: 'success',
             data: 'success',
           },
         },
-        status: statusCode => ({
-          send: obj => ({
+        status: (statusCode: number) => <Response>({
+          send: (obj: object): Partial<Response> => ({
             ...obj,
             statusCode,
           }),
         }),
       }
 
-      const result = responseHandler(req, successRes)
+      const result = responseHandler(<Request>req, <Response>successRes)
 
       test('should respond with correct payload', () => {
         expect(result).toEqual({
@@ -65,15 +66,15 @@ describe('ResponseHandler', () => {
             statusCode: 201,
           },
         },
-        status: statusCode => ({
-          send: obj => ({
+        status: (statusCode: number) => <Response>({
+          send: (obj: object): Partial<Response> => ({
             ...obj,
             statusCode,
           }),
         }),
       }
 
-      const result = responseHandler(req, successRes)
+      const result = responseHandler(<Request>req, <Response>successRes)
 
       test('should respond with correct payload', () => {
         expect(result).toEqual({
