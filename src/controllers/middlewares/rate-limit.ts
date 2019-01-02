@@ -1,36 +1,32 @@
-import rateLimit from 'express-rate-limit'
-import { Request, Response, NextFunction } from 'express'
+import RateLimit = require('express-rate-limit')
+import { Request, Response, NextFunction, RequestHandler } from 'express'
 
 import RateLimitError from '../../helpers/errors/rate-limit'
 
-export const authenticatedKeyGenerator = (req, res) =>
+export const authenticatedKeyGenerator = (req: Request, res: Response): string =>
   res.locals.user.id
 
-export const rateLimitHandler =
-  (req, res, next) =>
+export const rateLimitHandler: RequestHandler =
+  (req: Request, res: Response, next: NextFunction) =>
     next(new RateLimitError('Too many requests, please try again later.'))
 
-const unauthenticatedLimiter = rateLimit({
+const unauthenticatedLimiter = new RateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 600,
   handler: rateLimitHandler,
-  skipSuccessfulRequests: true,
 })
 
-const authenticatedLimit = rateLimit({
+const authenticatedLimit = new RateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 3600,
   keyGenerator: authenticatedKeyGenerator,
   handler: rateLimitHandler,
-  skipSuccessfulRequests: true,
 })
 
-export const rateLimiter = (req, res, next) => {
+export const rateLimiter = (req: Request, res: Response, next: NextFunction) => {
   if (res.locals.user) {
     return authenticatedLimit(req, res, next)
   }
 
   return unauthenticatedLimiter(req, res, next)
 }
-
-export default rateLimiter

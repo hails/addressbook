@@ -13,4 +13,4 @@ const database = () => ({
 firebase.initializeApp = initializeApp
 firebase.database = database
 
-module.exports = firebase
+export default firebase

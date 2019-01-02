@@ -3,15 +3,19 @@ import {
   prop,
 } from 'ramda'
 
+import { Response, NextFunction } from 'express'
+
 import { User } from '../../database/entities/User'
 
 import InternalServerError from '../../helpers/errors/internal-server'
 import ConflictError from '../../helpers/errors/conflict'
 import escriba from '../../helpers/escriba'
+import IHttpError from '../../../src/helpers/errors/http-error'
+import IEscribaRequest from '../request-interface'
 
 const { logger } = escriba
 
-const handleError = (error, req) => {
+const handleError = (error: IHttpError, req: IEscribaRequest) => {
   if (error.name === 'QueryFailedError' && error.code === '23505') {
     return new ConflictError('Email already registered')
   }
@@ -26,7 +30,7 @@ const createdUserSpec = applySpec({
   email: prop('email'),
 })
 
-const create = async (req, res, next) => {
+const create = async (req: IEscribaRequest, res: Response, next: NextFunction) => {
   const {
     email,
     password,

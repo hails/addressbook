@@ -65,7 +65,9 @@
             "check-separator",
             "check-type"
         ],
-        "import-name": false
+        "import-name": false,
+        "no-any": true,
+        "no-null-keyword": true
     }
 
 }

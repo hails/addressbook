@@ -4,7 +4,15 @@
     "esModuleInterop": true,
     "target": "es6",
     "allowJs": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "strict": true,
+    "noUnusedLocals": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
@@ -14,7 +22,7 @@
     "paths": {
       "*": [
         "node_modules/*",
-        "src/types/*"
+        "@types/*"
       ]
     }
   }

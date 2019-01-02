@@ -1,19 +1,28 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { promisify } from 'util'
-import { getRepository } from 'typeorm'
+import { Response, NextFunction } from 'express'
 
 import { User } from '../../database/entities/User'
 
 import InternalServerError from '../../helpers/errors/internal-server'
 import AuthenticationError from '../../helpers/errors/authentication'
 import escriba from '../../helpers/escriba'
+import IEscribaRequest from '../request-interface'
 
 const { logger } = escriba
 
-const signPayload = promisify(jwt.sign)
+const signPayload =
+  (payload: string | Buffer | object, secret: string, options: jwt.SignOptions) => {
+    return new Promise((resolve, reject) => jwt.sign(payload, secret, options, (err, res) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(res)
+      }
+    }))
+  }
 
-const login = async (req, res, next) => {
+const login = async (req: IEscribaRequest, res: Response, next: NextFunction) => {
   const {
     email,
     password,
@@ -31,7 +40,7 @@ const login = async (req, res, next) => {
           id: user.id,
         }
 
-        const token = await signPayload(payload, process.env.JWT_SECRET, { expiresIn: '5m' })
+        const token = await signPayload(payload, process.env.JWT_SECRET!, { expiresIn: '5m' })
 
         res.locals.payload = {
           data: {

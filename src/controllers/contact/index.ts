@@ -2,7 +2,7 @@ import { Router } from 'express'
 
 import validate from '../middlewares/validation'
 import authenticate from '../middlewares/authentication'
-import rateLimiter from '../middlewares/rate-limit'
+import { rateLimiter } from '../middlewares/rate-limit'
 
 import contactSchema from '../schemas/contact'
 

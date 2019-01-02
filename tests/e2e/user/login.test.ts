@@ -1,4 +1,4 @@
-import request from 'supertest'
+import request, { Response } from 'supertest'
 
 import app from '../../../src/server'
 import * as database from '../../../src/database'
@@ -28,7 +28,7 @@ describe('User login', () => {
         .post('/users/login')
         .send(userData)
         .set('Accept', 'application/json')
-        .then((response) => {
+        .then((response: Response) => {
           expect(response).toHaveProperty('status', 200)
           expect(response.body).toHaveProperty('data.token')
         }))
@@ -53,7 +53,7 @@ describe('User login', () => {
         .post('/users/login')
         .send(userData)
         .set('Accept', 'application/json')
-        .then((response) => {
+        .then((response: Response) => {
           expect(response).toHaveProperty('status', 403)
           expect(response.body).toEqual({
             errors: [
@@ -85,7 +85,7 @@ describe('User login', () => {
         .post('/users/login')
         .send(userData)
         .set('Accept', 'application/json')
-        .then((response) => {
+        .then((response: Response) => {
           expect(response).toHaveProperty('status', 403)
           expect(response.body).toEqual({
             errors: [

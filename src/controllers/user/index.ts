@@ -4,7 +4,7 @@ import validate from '../middlewares/validation'
 
 import userSchema from '../schemas/user'
 
-import rateLimiter from '../middlewares/rate-limit'
+import { rateLimiter } from '../middlewares/rate-limit'
 
 import createHandler from './create'
 import loginHandler from './login'

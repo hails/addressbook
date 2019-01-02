@@ -1,21 +1,22 @@
 import errorHandler from '../../../src/controllers/middlewares/error'
+import { Request, Response } from 'express'
+import IHttpError from '../../../src/helpers/errors/http-error'
 
 describe('Error Handler', () => {
   describe('with generic error', () => {
-    const error = {
+    const error: Partial<IHttpError> = {
       code: '007',
-      stack: 'StackTrace',
     }
 
-    const req = { id: 'request_id' }
-    const res = {
+    const req: Partial<Request> = {}
+    const res: Partial<Response> = {
       locals: {
         payload: {},
       },
     }
     const next = () => { }
 
-    errorHandler(error, req, res, next)
+    errorHandler(<IHttpError>error, <Request>req, <Response>res, next)
 
     test('should include standard error payload on `res.locals`', () => {
       expect(res.locals.payload).toMatchObject({
@@ -31,23 +32,22 @@ describe('Error Handler', () => {
   })
 
   describe('with custom made error', () => {
-    const error = {
+    const error: Partial<IHttpError> = {
       type: 'fake_error',
       statusCode: 418,
       message: 'I\'m a teapot',
       code: '007',
-      stack: 'StackTrace',
     }
 
-    const req = { id: 'request_id' }
-    const res = {
+    const req: Partial<Request> = {}
+    const res: Partial<Response> = {
       locals: {
         payload: {},
       },
     }
     const next = () => { }
 
-    errorHandler(error, req, res, next)
+    errorHandler(<IHttpError>error, <Request>req, <Response>res, next)
 
     test('should include standard error payload on `res.locals`', () => {
       expect(res.locals.payload).toMatchObject({
@@ -63,7 +63,7 @@ describe('Error Handler', () => {
   })
 
   describe('with validation error', () => {
-    const error = {
+    const error: Partial<IHttpError> = {
       type: 'validation',
       statusCode: 400,
       fields: [{
@@ -71,18 +71,17 @@ describe('Error Handler', () => {
         message: 'This field is invalid',
         field: 'fake_field',
       }],
-      stack: 'StackTrace',
     }
 
-    const req = { id: 'request_id' }
-    const res = {
+    const req: Partial<Request> = {}
+    const res: Partial<Response> = {
       locals: {
         payload: {},
       },
     }
     const next = () => { }
 
-    errorHandler(error, req, res, next)
+    errorHandler(<IHttpError>error, <Request>req, <Response>res, next)
 
     test('should include standard error payload on `res.locals`', () => {
       expect(res.locals.payload).toMatchObject({

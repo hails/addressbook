@@ -1,11 +1,15 @@
 jest.genMockFromModule('express-rate-limit')
 
-const handler = options => (req, res, next) => {
-  req.rateLimit = {
-    ...options,
-  }
+class ExpressRateLimiter {
+  constructor(options) {
+    return (req, res, next) => {
+      req.rateLimit = {
+        ...options,
+      }
 
-  next()
+      next()
+    }
+  }
 }
 
-module.exports = handler
+module.exports = ExpressRateLimiter

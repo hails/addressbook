@@ -1,4 +1,4 @@
-import request from 'supertest'
+import request, { Response } from 'supertest'
 import { Connection } from 'typeorm'
 
 import app from '../../../src/server'
@@ -22,7 +22,7 @@ describe('User creation', () => {
         .post('/users')
         .send(userData)
         .set('Accept', 'application/json')
-        .then((response) => {
+        .then((response: Response) => {
           expect(response).toHaveProperty('status', 201)
           expect(response.body).toHaveProperty('data')
           expect(response.body.data).toHaveProperty('id')
@@ -41,7 +41,7 @@ describe('User creation', () => {
         .post('/users')
         .send(userData)
         .set('Accept', 'application/json')
-        .then((response) => {
+        .then((response: Response) => {
           expect(response).toHaveProperty('status', 409)
           expect(response.body).toEqual({
             errors: [
