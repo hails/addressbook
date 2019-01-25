@@ -38,6 +38,8 @@ const bootstrap = async () => {
   }
 }
 
+app.enable('trust proxy')
+
 app.use(bodyParser.json())
 app.use(httpLogger)
 
