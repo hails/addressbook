@@ -42,6 +42,7 @@ const escribaConfig = {
         'referrer',
         'referer',
         'user-agent',
+        'ip',
       ],
       response: [
         'id',
